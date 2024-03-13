@@ -1,2 +1,6 @@
 # political-game
-hi! this is because i can't git yet. sad.
+Currently includes 
+
+1. Weather simulation
+
+Currently trying to make the politics part
