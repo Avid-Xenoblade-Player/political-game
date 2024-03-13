@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cellular Automata Weather Grid</title>
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 2px; /* Adjust gap between cells */
+      width: 200px; /* Adjust grid width as needed */
+      height: 200px; /* Adjust grid height as needed */
+    }
+    .cell {
+      background-color: #fff; /* Default background color */
+      border: 1px solid #ddd;
+      text-align: center;
+      line-height: 50px; /* Center text vertically */
+    }
+    .clear {
+      background-color: #fff;
+    }
+    .cloud {
+      background-color: #ccc;
+    }
+    .rain {
+      background-color: #444;
+    }
+    .storm {
+      background-color: #000;
+      color: #fff; /* White text for storm */
+    }
+  </style>
+</head>
+<body>
+  <div class="grid" id="grid-container"></div>
+  <script src="script.js"></script> </body>
+</html>
+
+
