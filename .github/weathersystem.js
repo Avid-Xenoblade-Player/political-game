@@ -38,9 +38,9 @@ function setCell(x, y, state) {
 
 function initializeGrid() {
   const weatherProbabilities = {
-    [WeatherState.CLEAR]: 0.6, // 60% chance
-    [WeatherState.CLOUD]: 0.2, // 25% chance
-    [WeatherState.RAIN]: 0.15,  // 10% chance
+    [WeatherState.CLEAR]: 0.4, // 60% chance
+    [WeatherState.CLOUD]: 0.3, // 25% chance
+    [WeatherState.RAIN]: 0.25,  // 10% chance
     [WeatherState.STORM]: 0.05, // 5% chance
   };
 
@@ -90,50 +90,41 @@ function updateCell(x, y) {
         if (stateCounts[WeatherState.RAIN || WeatherState.STORM] > 2) {
           newState = WeatherState.CLOUD;
         } else {
-          newState = WeatherState.SUNNY;
+          newState = WeatherState.CLEAR;
         }
       }
       break;
     case WeatherState.CLOUD:
-      if (
-        x > 0 &&
-        y > 0 &&
-        getCell(x - 1, y) === WeatherState.RAIN || WeatherState.STORM &&
-        getCell(x, y - 1) === WeatherState.RAIN || WeatherState.STORM &&
-        getCell(x + 1, y) === WeatherState.RAIN || WeatherState.STORM &&
-        getCell(x, y + 1) === WeatherState.RAIN || WeatherState.STORM
-      ) {
+      if (stateCounts[WeatherState.RAIN] > 2) {
+        if (stateCounts[WeatherState.CLEAR] > 0) {
+          newState = WeatherState.CLOUD;
+        } else {
         newState = WeatherState.RAIN;
+        }
       } else {
         newState = WeatherState.CLEAR;
       }
+      if (stateCounts[WeatherState.CLOUD] > stateCounts[WeatherState.CLEAR]) {
+      if (stateCounts[WeatherState.CLOUD] > 1
+      ) {
+      	if (stateCounts[WeatherState.CLEAR] > 0) {
+        	if (stateCounts[WeatherState.CLEAR] > 1) {
+          	newState = WeatherState.CLOUD;
+          } else {
+          	newState = WeatherState.CLOUD;
+          }
+        } else {
+      	newState = WeatherState.RAIN;
+       }
+      } else {
+        newState = WeatherState.CLOUD
+      }
+     }
       break;
      case WeatherState.RAIN:
-      
-      if (
-        x > 0 &&
-        y > 0 &&
-        getCell(x - 1, y) === WeatherState.RAIN || WeatherState.STORM &&
-        getCell(x, y - 1) === WeatherState.RAIN || WeatherState.STORM &&
-        getCell(x + 1, y) === WeatherState.RAIN || WeatherState.STORM &&
-        getCell(x, y + 1) === WeatherState.RAIN || WeatherState.STORM
-      ) {
-      	if (stateCounts[WeatherState.CLEAR] === stateCounts[WeatherState.RAIN]) {
-        newState = WeatherState.CLEAR;
-      }
-      	if (stateCounts[WeatherState.STORM] > stateCounts[WeatherState.RAIN]) {
-        newState = WeatherState.STORM;
-      } 
-       if (stateCounts[WeatherState.RAIN] > stateCounts[WeatherState.STORM || WeatherState.CLOUDY || WeatherState.SUNNY]) {
-        newState = WeatherState.RAIN
+       if (stateCounts[WeatherState.CLEAR || WeatherState.CLOUD] > 0){ 
+       	newState = WeatherState.CLOUD;
        }
-      }
-      if(stateCounts[WeatherState.CLOUDY] > 0 || stateCounts[WeatherState.SUNNY] > 1) {
-      newState = WeatherState.CLOUDY
-      }
-      if(stateCounts[WeatherState.RAIN] < 2) {
-      newState = WeatherState.CLOUDY
-      }
       break;
     case WeatherState.STORM:
       if (stateCounts[WeatherState.STORM] < 5) {
